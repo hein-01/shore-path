@@ -20,8 +20,13 @@ export default function ServiceSelection() {
   const navigate = useNavigate();
 
   const handleServiceSelect = (serviceType: string) => {
-    // Navigate to list business form with service type pre-selected
-    navigate("/list-business", { state: { serviceType } });
+    // Navigate to specific form for Futsal Court Rental
+    if (serviceType === "Futsal Court Rental") {
+      navigate("/list-futsal-court");
+    } else {
+      // Navigate to general list business form with service type pre-selected
+      navigate("/list-business", { state: { serviceType } });
+    }
   };
 
   return (

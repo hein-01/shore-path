@@ -11,6 +11,7 @@ import BusinessDirectory from "./pages/BusinessDirectory";
 import FindShops from "./pages/FindShops";
 import ListBusiness from "./pages/ListBusiness";
 import ServiceSelection from "./pages/ServiceSelection";
+import FutsalCourtListing from "./pages/FutsalCourtListing";
 import Auth from "./pages/Auth";
 import AuthCallback from "./pages/AuthCallback";
 import SavedListings from "./pages/SavedListings";
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/business/:id" element={<BusinessDetail />} />
             <Route path="/list-business" element={<ListBusiness />} />
             <Route path="/service-selection" element={<ServiceSelection />} />
+            <Route path="/list-futsal-court" element={<FutsalCourtListing />} />
             <Route path="/auth/signin" element={<Auth />} />
             <Route path="/auth/signup" element={<Auth />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
