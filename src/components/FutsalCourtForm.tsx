@@ -111,7 +111,7 @@ export const FutsalCourtForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       businessName: "",
-      numberOfFields: "",
+      numberOfFields: "1",
       fieldDetails: [],
       operatingHours: days.map(day => ({
         day,
@@ -240,10 +240,7 @@ export const FutsalCourtForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* 1. Business Basic Information */}
         <Card>
-          <CardHeader>
-            <CardTitle>Business Basic Information</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <FormField
               control={form.control}
               name="businessName"
@@ -262,10 +259,7 @@ export const FutsalCourtForm = () => {
 
         {/* 2. Field Configuration */}
         <Card>
-          <CardHeader>
-            <CardTitle>Field Configuration</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             <FormField
               control={form.control}
               name="numberOfFields"
@@ -326,10 +320,7 @@ export const FutsalCourtForm = () => {
 
         {/* 3. Operating Hours */}
         <Card>
-          <CardHeader>
-            <CardTitle>Operating Hours</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             {days.map((day, index) => (
               <div key={day} className="grid grid-cols-4 gap-4 items-center">
                 <div className="font-medium">{day}</div>
@@ -597,10 +588,7 @@ export const FutsalCourtForm = () => {
 
         {/* 7. Business Description */}
         <Card>
-          <CardHeader>
-            <CardTitle>Business Description</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <FormField
               control={form.control}
               name="description"
@@ -679,10 +667,7 @@ export const FutsalCourtForm = () => {
 
         {/* 9. Contact Information */}
         <Card>
-          <CardHeader>
-            <CardTitle>Contact Information</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <FormField
               control={form.control}
               name="phoneNumber"
@@ -708,10 +693,7 @@ export const FutsalCourtForm = () => {
 
         {/* 10. Location Information */}
         <Card>
-          <CardHeader>
-            <CardTitle>Location Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             <FormField
               control={form.control}
               name="streetAddress"
@@ -789,10 +771,7 @@ export const FutsalCourtForm = () => {
 
         {/* 11. Online Presence */}
         <Card>
-          <CardHeader>
-            <CardTitle>Online Presence</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             <FormField
               control={form.control}
               name="website"
@@ -853,10 +832,7 @@ export const FutsalCourtForm = () => {
 
         {/* 12. Pricing */}
         <Card>
-          <CardHeader>
-            <CardTitle>Pricing</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             <FormField
               control={form.control}
               name="startingPrice"
