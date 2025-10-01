@@ -112,7 +112,7 @@ export const FutsalCourtForm = () => {
     defaultValues: {
       businessName: "",
       numberOfFields: "1",
-      fieldDetails: [],
+      fieldDetails: [{ name: "Field 1", price: "" }],
       operatingHours: days.map(day => ({
         day,
         closed: false,
@@ -143,6 +143,7 @@ export const FutsalCourtForm = () => {
   });
 
   const numberOfFields = form.watch("numberOfFields");
+  const fieldDetails = form.watch("fieldDetails");
   const paymentOption = form.watch("paymentOption");
 
   React.useEffect(() => {
@@ -154,7 +155,7 @@ export const FutsalCourtForm = () => {
       );
       form.setValue("fieldDetails", newFields);
     }
-  }, [numberOfFields]);
+  }, [numberOfFields, form]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -285,7 +286,7 @@ export const FutsalCourtForm = () => {
               )}
             />
 
-            {numberOfFields && form.getValues("fieldDetails")?.map((_, index) => (
+            {fieldDetails?.map((_, index) => (
               <div key={index} className="grid grid-cols-2 gap-4 p-4 border rounded-lg">
                 <FormField
                   control={form.control}
