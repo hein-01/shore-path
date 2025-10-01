@@ -322,6 +322,9 @@ export const FutsalCourtForm = () => {
         {/* 3. Operating Hours */}
         <Card>
           <CardContent className="space-y-4 pt-6">
+            <p className="text-sm text-muted-foreground mb-4">
+              Please provide your business's opening and closing hours. If your business is closed on a particular day (e.g., Sunday), you may check the 'Close' checkbox for that day.
+            </p>
             {days.map((day, index) => (
               <div key={day} className="grid grid-cols-4 gap-4 items-center">
                 <div className="font-medium">{day}</div>
