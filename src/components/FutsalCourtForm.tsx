@@ -534,6 +534,9 @@ export const FutsalCourtForm = () => {
             <CardTitle>Facilities</CardTitle>
           </CardHeader>
           <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              This facility list is compiled based on today's global industry standards and data from similar field rental businesses.
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {facilities.map((facility) => (
                 <FormField
