@@ -387,6 +387,9 @@ export const FutsalCourtForm = () => {
             <CardTitle>Payment Methods for Bookings</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground mb-4">
+              We highly recommend accepting at least one method of online prepayment. Without collecting money upfront, you run the risk of customers canceling at the last minute or failing to show up—the single biggest risk. This results in lost revenue for that time slot because you have no guarantee the customer has the funds, making it too late to rent the field to another party.
+            </p>
             <FormField
               control={form.control}
               name="paymentMethods.cash"
