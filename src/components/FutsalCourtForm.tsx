@@ -71,10 +71,19 @@ const formSchema = z.object({
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 const facilities = [
-  "Changing Rooms / Locker Rooms",
-  "Equipment Rental (Futsal shoes, ball rental)",
-  "Shop / Kiosk",
-  "Drinking Water",
+  "Changing Rooms",
+  "Locker Rental",
+  "Towel Rental",
+  "Ball Rental",
+  "Bottled Water",
+  "Free Drinking Water",
+  "Energy Drinks",
+  "Soft Drinks",
+  "Pain Relief Spray/Balm",
+  "Antiseptic Wipes/Swabs",
+  "Plasters",
+  "Facility-branded t-shirts",
+  "Selling footballs/futsal balls",
   "First Aid Kit",
   "CCTV Security",
   "Toilets",
