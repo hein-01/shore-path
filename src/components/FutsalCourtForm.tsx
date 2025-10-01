@@ -267,6 +267,9 @@ export const FutsalCourtForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>How many fields can be rented at your location? *</FormLabel>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    We recommend using distinct and easy-to-remember names for each field. This will help both you and your clients differentiate them easily.
+                  </p>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
