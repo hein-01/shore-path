@@ -16,36 +16,35 @@ function Calendar({
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn("p-3 border-2 border-primary/30 rounded-lg bg-card shadow-lg", className)}
+      className={cn("p-4 border border-border rounded-lg bg-card shadow-sm", className)}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-        month: "space-y-4",
-        caption: "flex justify-center pt-1 relative items-center mb-2",
-        caption_label: "text-sm font-semibold text-foreground",
+        month: "space-y-4 w-full",
+        caption: "flex justify-center pt-1 relative items-center mb-3",
+        caption_label: "text-sm font-semibold text-foreground uppercase tracking-wide",
         nav: "space-x-1 flex items-center",
         nav_button: cn(
-          buttonVariants({ variant: "outline" }),
-          "h-8 w-8 bg-transparent p-0 opacity-70 hover:opacity-100 border-primary/20 hover:border-primary/40"
-        ),
-        nav_button_previous: "absolute left-1",
-        nav_button_next: "absolute right-1",
-        table: "w-full border-collapse space-y-1",
-        head_row: "flex w-full",
-        head_cell:
-          "text-muted-foreground font-semibold flex-1 text-center text-xs uppercase py-2",
-        row: "flex w-full mt-1",
-        cell: "flex-1 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-        day: cn(
           buttonVariants({ variant: "ghost" }),
-          "h-10 w-full p-0 font-normal aria-selected:opacity-100 hover:bg-accent/50"
+          "h-7 w-7 bg-transparent p-0 hover:bg-accent/50 border-0"
+        ),
+        nav_button_previous: "absolute left-0",
+        nav_button_next: "absolute right-0",
+        table: "w-full border-collapse",
+        head_row: "flex w-full mb-1",
+        head_cell:
+          "text-muted-foreground font-medium flex-1 text-center text-xs uppercase tracking-wider w-9 h-9 flex items-center justify-center",
+        row: "flex w-full",
+        cell: "flex-1 text-center text-sm p-0.5 relative w-9 h-9 flex items-center justify-center",
+        day: cn(
+          "h-9 w-9 p-0 font-normal rounded-full flex items-center justify-center hover:bg-accent/50 transition-colors"
         ),
         day_range_end: "day-range-end",
         day_selected:
-          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground font-semibold",
-        day_today: "bg-accent text-accent-foreground font-semibold border border-primary/30",
+          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground font-semibold rounded-full",
+        day_today: "bg-accent text-accent-foreground font-medium",
         day_outside:
           "day-outside text-muted-foreground/40 opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
-        day_disabled: "text-muted-foreground opacity-30 cursor-not-allowed",
+        day_disabled: "text-muted-foreground/30 opacity-30 cursor-not-allowed",
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
