@@ -10,6 +10,7 @@ import BusinessForm from "@/components/BusinessForm";
 import UpgradeModal from "@/components/UpgradeModal";
 import { addDays, addHours, format } from "date-fns";
 import { formatDateWithOrdinal } from "@/lib/dateUtils";
+import { toast } from "@/hooks/use-toast";
 import { 
   User, 
   Mail, 
@@ -56,6 +57,7 @@ const sidebarItems = [
   { title: "List Your Business", icon: Plus, action: "add-listing" },
   { title: "Get Website + POS", icon: Globe, action: "website-pos" },
   { title: "My Listings", icon: Building2, action: "listings" },
+  { title: "Manage Bookings", icon: Calendar, action: "manage-bookings" },
   { title: "Profile Info", icon: User, action: "profile" },
   { title: "Email Settings", icon: Mail, action: "email" },
 ];
@@ -293,7 +295,12 @@ export default function UserDashboard() {
           if (isOwner || isCustomer) {
             // Show toast notification for owner
             if (isOwner) {
-              console.log('New booking for owned business, refreshing list');
+              console.log('New booking for owned business, showing toast');
+              toast({
+                title: "🎉 New Booking Received!",
+                description: "You have a new pending booking. Check your dashboard to confirm it.",
+                duration: 5000,
+              });
             }
             
             // Refresh pending bookings list
@@ -410,6 +417,8 @@ export default function UserDashboard() {
     
     if (action === "website-pos") {
       navigate("/list-&-get-pos-website");
+    } else if (action === "manage-bookings") {
+      navigate("/manage-bookings");
     } else if (action === "listings") {
       fetchUserBusinesses();
     } else if (action === "wishlists") {

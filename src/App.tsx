@@ -23,6 +23,7 @@ import ProtectedAdminRoute from "./components/admin/ProtectedAdminRoute";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ListAndGetPOS from "./pages/ListAndGetPOS";
 import UserDashboard from "./pages/UserDashboard";
+import ManageBookings from "./pages/ManageBookings";
 import FindJobs from "./pages/FindJobs";
 import PostAJob from "./pages/PostAJob";
 import ServiceAvailability from "./pages/ServiceAvailability";
@@ -73,6 +74,11 @@ const App = () => (
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <UserDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/manage-bookings" element={
+              <ProtectedRoute>
+                <ManageBookings />
               </ProtectedRoute>
             } />
             <Route path="/saved" element={
