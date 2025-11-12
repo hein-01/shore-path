@@ -150,4 +150,97 @@ export async function confirmBooking(
   return { success: true };
 }
 
+export async function processBookingFinalization(
+  bookingId: string,
+  staffUserId: string,
+  actionType: "confirm" | "reject"
+): Promise<ConfirmBookingResult> {
+  // Fetch booking and slot information
+  const { data: booking, error: bookingFetchError } = await supabase
+    .from("bookings")
+    .select("id, slot_id, status")
+    .eq("id", bookingId)
+    .maybeSingle();
+
+  if (bookingFetchError || !booking) {
+    console.error("Failed to fetch booking", bookingFetchError);
+    return { success: false, error: "Unable to find booking." };
+  }
+
+  if (booking.status !== "Pending") {
+    return { success: false, error: "This booking has already been processed." };
+  }
+
+  if (actionType === "confirm") {
+    // Atomically update booking status to Confirmed
+    const { data: updatedBooking, error: bookingError } = await supabase
+      .from("bookings")
+      .update({ status: "Confirmed", confirmed_by_id: staffUserId })
+      .eq("id", bookingId)
+      .eq("status", "Pending")
+      .select("id, slot_id")
+      .single();
+
+    if (bookingError || !updatedBooking) {
+      console.error("Failed to confirm booking", bookingError);
+      return { success: false, error: "Unable to confirm booking." };
+    }
+
+    // Update slot inventory - mark as booked
+    if (updatedBooking.slot_id) {
+      const { error: slotError } = await supabase
+        .from("slots")
+        .update({ is_booked: true, booking_id: bookingId })
+        .eq("id", updatedBooking.slot_id);
+
+      if (slotError) {
+        console.error("Failed to update slot for confirmed booking", slotError);
+        // Attempt rollback
+        await supabase
+          .from("bookings")
+          .update({ status: "Pending", confirmed_by_id: null })
+          .eq("id", bookingId);
+        return {
+          success: false,
+          error: "Failed to mark slot as booked. Booking reverted to pending.",
+        };
+      }
+    }
+
+    return { success: true };
+  } else if (actionType === "reject") {
+    // Update booking status to Rejected
+    const { error: bookingError } = await supabase
+      .from("bookings")
+      .update({ status: "Rejected", confirmed_by_id: staffUserId })
+      .eq("id", bookingId)
+      .eq("status", "Pending");
+
+    if (bookingError) {
+      console.error("Failed to reject booking", bookingError);
+      return { success: false, error: "Unable to reject booking." };
+    }
+
+    // Release the slot - make it available again
+    if (booking.slot_id) {
+      const { error: slotError } = await supabase
+        .from("slots")
+        .update({ is_booked: false, booking_id: null })
+        .eq("id", booking.slot_id);
+
+      if (slotError) {
+        console.error("Failed to release slot for rejected booking", slotError);
+        return {
+          success: false,
+          error: "Booking rejected but failed to release slot. Please manually check the slot.",
+        };
+      }
+    }
+
+    return { success: true };
+  }
+
+  return { success: false, error: "Invalid action type." };
+}
+
 export type BookingRecord = Tables<"bookings">;

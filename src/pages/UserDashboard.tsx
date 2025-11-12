@@ -8,6 +8,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { supabase } from "@/integrations/supabase/client";
 import BusinessForm from "@/components/BusinessForm";
 import UpgradeModal from "@/components/UpgradeModal";
+import RenterConfirmationScreen from "@/components/RenterConfirmationScreen";
 import { addDays, addHours, format } from "date-fns";
 import { formatDateWithOrdinal } from "@/lib/dateUtils";
 import { toast } from "@/hooks/use-toast";
@@ -23,7 +24,8 @@ import {
   Home,
   Edit,
   ArrowUp,
-  Calendar
+  Calendar,
+  Eye
 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
@@ -82,6 +84,8 @@ export default function UserDashboard() {
   const [pendingBookings, setPendingBookings] = React.useState<any[]>([]);
   const [loadingPendingBookings, setLoadingPendingBookings] = React.useState(false);
   const [ownerPendingCount, setOwnerPendingCount] = React.useState(0);
+  const [selectedBookingId, setSelectedBookingId] = React.useState<string | null>(null);
+  const [confirmationDialogOpen, setConfirmationDialogOpen] = React.useState(false);
 
   const fetchUserBusinesses = async () => {
     if (!user?.id) return;
@@ -701,6 +705,7 @@ export default function UserDashboard() {
                           <TableHead>Status</TableHead>
                           <TableHead>Submitted</TableHead>
                           <TableHead>Time Remaining</TableHead>
+                          <TableHead>Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -711,12 +716,13 @@ export default function UserDashboard() {
                           const timeRemaining = confirmationWindowEnd > now 
                             ? `${Math.ceil((confirmationWindowEnd.getTime() - now.getTime()) / (1000 * 60))} min`
                             : 'Expired';
+                          const isOwner = booking.business_resources?.businesses?.owner_id === user?.id;
                           
                           return (
                             <TableRow key={booking.id}>
                               <TableCell className="font-medium">
                                 {booking.business_resources?.businesses?.name || 'N/A'}
-                                {booking.business_resources?.businesses?.owner_id === user?.id && (
+                                {isOwner && (
                                   <Badge variant="outline" className="ml-2">Owner</Badge>
                                 )}
                               </TableCell>
@@ -740,6 +746,21 @@ export default function UserDashboard() {
                               </TableCell>
                               <TableCell className={timeRemaining === 'Expired' ? 'text-destructive' : 'text-muted-foreground'}>
                                 {timeRemaining}
+                              </TableCell>
+                              <TableCell>
+                                {isOwner && (
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => {
+                                      setSelectedBookingId(booking.id);
+                                      setConfirmationDialogOpen(true);
+                                    }}
+                                  >
+                                    <Eye className="h-4 w-4 mr-1" />
+                                    Review
+                                  </Button>
+                                )}
                               </TableCell>
                             </TableRow>
                           );
@@ -1064,6 +1085,25 @@ export default function UserDashboard() {
             <BusinessForm 
               editingBusiness={editingBusiness}
               onSuccess={handleEditSuccess}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Booking Confirmation Dialog */}
+      <Dialog open={confirmationDialogOpen} onOpenChange={setConfirmationDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Review Booking Payment</DialogTitle>
+          </DialogHeader>
+          {selectedBookingId && (
+            <RenterConfirmationScreen
+              bookingId={selectedBookingId}
+              onSuccess={() => {
+                setConfirmationDialogOpen(false);
+                setSelectedBookingId(null);
+                fetchPendingBookings();
+              }}
             />
           )}
         </DialogContent>
