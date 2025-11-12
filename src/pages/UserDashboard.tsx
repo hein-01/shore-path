@@ -81,6 +81,7 @@ export default function UserDashboard() {
   const [odooPrice, setOdooPrice] = React.useState("");
   const [pendingBookings, setPendingBookings] = React.useState<any[]>([]);
   const [loadingPendingBookings, setLoadingPendingBookings] = React.useState(false);
+  const [ownerPendingCount, setOwnerPendingCount] = React.useState(0);
 
   const fetchUserBusinesses = async () => {
     if (!user?.id) return;
@@ -245,6 +246,10 @@ export default function UserDashboard() {
       );
       
       setPendingBookings(uniqueBookings);
+      
+      // Calculate owner pending count
+      const ownerCount = (ownerBookings || []).length;
+      setOwnerPendingCount(ownerCount);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -303,7 +308,7 @@ export default function UserDashboard() {
               });
             }
             
-            // Refresh pending bookings list
+            // Refresh pending bookings list (this will also update the counter)
             fetchPendingBookings();
           }
         }
@@ -931,6 +936,14 @@ export default function UserDashboard() {
                     >
                       <item.icon className="h-5 w-5" />
                       <span className="font-medium">{item.title}</span>
+                      {item.action === "dashboard" && ownerPendingCount > 0 && (
+                        <Badge 
+                          variant="destructive" 
+                          className="ml-auto h-5 min-w-[20px] flex items-center justify-center px-1.5 text-xs font-bold animate-pulse"
+                        >
+                          {ownerPendingCount}
+                        </Badge>
+                      )}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
